@@ -12,29 +12,36 @@ arguments = argParser.parse_args()
 passedArtist = arguments.key.replace(' ','+')
 print passedArtist
 lastfm_key = "f30074d1365071a86b89594c8d583658" 
-
 artistList = []
-print "LastFM Opening"
-url = urllib.urlopen("http://ws.audioscrobbler.com/2.0/?method=artist.getSimilar&artist=" + passedArtist + "&api_key=" + lastfm_key)
-print "LastFM Opened"
-string_url = url.read()
-soup = BeautifulSoup(string_url)
-print "Soup Made"
-for tag in soup.findAll("name"):
-	if tag(text=True):
-		artistList.append(tag.text.replace('&amp;','&'))
 
-randomIndexForArtistList = random.randint(0,len(artistList)-1)
-randomArtist = artistList[randomIndexForArtistList]
-randomArtist = randomArtist.replace(' ','+')
+def createArtistList(artist,key):
+	alist = []
+	print "LastFM Opening"
+	url = urllib.urlopen("http://ws.audioscrobbler.com/2.0/?method=artist.getSimilar&artist=" + artist + "&api_key=" + key)
+	print "LastFM Opened"
+	string_url = url.read()
+	soup = BeautifulSoup(string_url)
+	print "Soup Made"
+	for tag in soup.findAll("name"):
+		if tag(text=True):
+			alist.append(tag.text.replace('&amp;','&'))
+	return alist
 
-print "TinySong Opening"
-tinysongurl = urllib.urlopen("http://tinysong.com/s/" + randomArtist + "?format=json&limit=1&key=59f18b16a371c3d6090205c642fdf0f5").read()
-print "TinySong Opened"
-parsed_tinysongurl = json.loads(tinysongurl) 
-print parsed_tinysongurl
-pickedSong_url = parsed_tinysongurl[0]['Url']
-print pickedSong_url
+def randomArtistFromList(alist):
+	randomIndexForArtistList = random.randint(0,len(alist)-1)
+	randomArtist = alist[randomIndexForArtistList]
+	randomArtist = randomArtist.replace(' ','+')
+	return randomArtist
+
+def URLForRandomSongByArtist(artist):
+	print "TinySong Opening"
+	tinysongurl = urllib.urlopen("http://tinysong.com/s/" + artist + "?format=json&limit=1&key=59f18b16a371c3d6090205c642fdf0f5").read()
+	print "TinySong Opened"
+	parsed_tinysongurl = json.loads(tinysongurl) 
+	print parsed_tinysongurl
+	pickedSong_url = parsed_tinysongurl[0]['Url']
+	print pickedSong_url
+	return pickedSong_url
 
 
 browserController = pexpect.spawn('/usr/bin/irb')
@@ -44,7 +51,7 @@ browserController.sendline('require "watir-webdriver"')
 browserController.expect('>>')
 browserController.sendline('browser = Watir::Browser.new :ff')  
 browserController.expect('>>')
-browserController.sendline('browser.goto "' + pickedSong_url + '"')  
+browserController.sendline('browser.goto "' + URLForRandomSongByArtist(randomArtistFromList(createArtistList(passedArtist,lastfm_key)))+ '"')  
 browserController.expect('>>')
 time.sleep(20)
 browserController.sendline('browser.execute_script("javascript:window.Grooveshark.addSongsByID(21104374,false);")')
