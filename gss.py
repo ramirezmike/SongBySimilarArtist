@@ -12,7 +12,6 @@ arguments = argParser.parse_args()
 passedArtist = arguments.key.replace(' ','+')
 print passedArtist
 lastfm_key = "f30074d1365071a86b89594c8d583658" 
-artistList = []
 
 def createArtistList(artist,key):
 	alist = []
@@ -33,39 +32,64 @@ def randomArtistFromList(alist):
 	randomArtist = randomArtist.replace(' ','+')
 	return randomArtist
 
-def URLForRandomSongByArtist(artist):
+def IdForRandomSongByArtist(artist):
 	print "TinySong Opening"
 	tinysongurl = urllib.urlopen("http://tinysong.com/s/" + artist + "?format=json&limit=1&key=59f18b16a371c3d6090205c642fdf0f5").read()
 	print "TinySong Opened"
 	parsed_tinysongurl = json.loads(tinysongurl) 
-	print parsed_tinysongurl
-	pickedSong_url = parsed_tinysongurl[0]['Url']
-	print pickedSong_url
-	return pickedSong_url
+	pickedSong_id = parsed_tinysongurl[0]['SongID']
+	print str(pickedSong_id) + " Artist: ",
+	print str(parsed_tinysongurl[0]['ArtistName']),
+	print " Song: ",
+	print str(parsed_tinysongurl[0]['SongName'])
+	print "This is the song ID:",
+	print pickedSong_id
+	print pickedSong_id
+	pickedSong_id
+	return pickedSong_id
 
 
-browserController = pexpect.spawn('/usr/bin/irb')
-browserController.expect('>>')
-print 'Browser Controller Initiated'
-browserController.sendline('require "watir-webdriver"')  
-browserController.expect('>>')
-browserController.sendline('browser = Watir::Browser.new :ff')  
-browserController.expect('>>')
-browserController.sendline('browser.goto "' + URLForRandomSongByArtist(randomArtistFromList(createArtistList(passedArtist,lastfm_key)))+ '"')  
-browserController.expect('>>')
-time.sleep(20)
-browserController.sendline('browser.execute_script("javascript:window.Grooveshark.addSongsByID(21104374,false);")')
-print "First Javascript Insertion"
-time.sleep(10)
-browserController.expect('>>')
-browserController.sendline('browser.execute_script("javascript:window.Grooveshark.addSongsByID(21104374,false);")')
-browserController.expect('>>')
-print "Second Javascript Insertion"
-time.sleep(10)
-browserController.sendline('browser.execute_script("javascript:window.Grooveshark.addSongsByID(21104374,false);")')
-browserController.expect('>>')
-print "Third Javascript Insertion"
-time.sleep(10)
-browserController.sendline('browser.execute_script("javascript:window.Grooveshark.addSongsByID(21104374,false);")')
-browserController.expect('>>')
-print "Fourth Javascript Insertion"
+def setupBrowserController():
+	controller = pexpect.spawn('/usr/bin/irb')
+	controller.expect('>>')
+	print 'Browser Controller Initiated'
+	controller.sendline('require "watir-webdriver"')  
+	controller.expect('>>')
+	controller.sendline('browser = Watir::Browser.new :ff')  
+	controller.expect('>>')
+	return controller
+
+def javaCallAddNewRandomSong(controller,idNumber,songNumber):
+	if (songNumber == 1):
+		scriptSetup(controller,idNumber)
+		scriptSetup(controller,idNumber)
+		return
+	time.sleep(10)
+	idNumber = str(idNumber)
+	controller.sendline('browser.execute_script("javascript:window.Grooveshark.addSongsByID(%s,false);")'% idNumber)
+	controller.expect('>>')
+	time.sleep(5)
+	controller.sendline('browser.execute_script("javascript:window.Grooveshark.addSongsByID(%s,false);")'% idNumber)
+	controller.expect('>>')
+	print controller.before
+	return
+
+def scriptSetup(controller,idNumber):
+	test = 'browser.execute_script("javascript:window.Grooveshark.addSongsByID(' + str(idNumber) + ',true);")'
+	print "Setting up script.." 
+	time.sleep(20)
+	controller.sendline(test)
+	controller.expect('>>')
+	print controller.before
+	return
+
+artistList = createArtistList(passedArtist,lastfm_key)
+browserController = setupBrowserController()
+browserController.sendline('browser.goto "http://www.grooveshark.com"')  
+browserController.expect('>>',120)
+
+loop = 1
+while (loop>0):
+	idNumber = IdForRandomSongByArtist(randomArtistFromList(artistList))
+	javaCallAddNewRandomSong(browserController,idNumber,loop)
+	loop += 1
