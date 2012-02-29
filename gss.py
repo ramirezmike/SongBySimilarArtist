@@ -29,6 +29,8 @@ def createArtistList(artist,key):
 	for tag in soup.findAll("name"):
 		if tag(text=True):
 			alist.append(tag.text.replace('&amp;','&'))
+	alist.append(artist)
+	print "Number of Artists added to List: %s"% len(alist)
 	return alist
 
 def randomArtistFromList(alist):

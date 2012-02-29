@@ -1,1 +1,16 @@
-Once complete, user should be able to run the script with an artist as an argument and the script will launch Firefox and play a random song by a similar artist.
+Script launches from terminal with an artist's name as the argument which is used to generate a list of similar artists. The script launches Firefox and automatically adds and plays random songs through Grooveshark. 
+
+Once launched, both the terminal window and the firefox window can be minimized and the script continues to run and control the minimized firefox window.
+
+Bugs to fix: 
+* sometimes an artist name will crash the script because of encoding
+* timing of adding songs needs to be balanced
+* time from script launch to music playing should be shortened
+* crashes if an artist in list has no song results from Tinysong
+
+How to run:
+
+You'll need Firefox with the "noscripts" addon installed.
+Python with BeautifulSoup and pexpect libraries installed
+watir installed on your system (this is probably the hardest step)
+API keys from last.fm and tinysong
