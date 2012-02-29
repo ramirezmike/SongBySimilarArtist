@@ -10,8 +10,13 @@ argParser = argparse.ArgumentParser(description='Add Key.')
 argParser.add_argument('key',type=str)
 arguments = argParser.parse_args()
 passedArtist = arguments.key.replace(' ','+')
-print passedArtist
 lastfm_key = "f30074d1365071a86b89594c8d583658" 
+
+def jsonObjectCount(obj):
+	count = 0
+	for x in obj:
+		count += 1
+	return count
 
 def createArtistList(artist,key):
 	alist = []
@@ -34,18 +39,20 @@ def randomArtistFromList(alist):
 
 def IdForRandomSongByArtist(artist):
 	print "TinySong Opening"
-	tinysongurl = urllib.urlopen("http://tinysong.com/s/" + artist + "?format=json&limit=1&key=59f18b16a371c3d6090205c642fdf0f5").read()
+	tinysongurl = urllib.urlopen("http://tinysong.com/s/" + artist + "?format=json&limit=32&key=59f18b16a371c3d6090205c642fdf0f5").read()
 	print "TinySong Opened"
 	parsed_tinysongurl = json.loads(tinysongurl) 
-	pickedSong_id = parsed_tinysongurl[0]['SongID']
+	numberOfSongs = jsonObjectCount(parsed_tinysongurl)
+	randomIndexForSong = random.randint(0,numberOfSongs-1)
+	print "Number of Songs:",
+	print numberOfSongs
+	pickedSong_id = parsed_tinysongurl[randomIndexForSong]['SongID']
 	print str(pickedSong_id) + " Artist: ",
-	print str(parsed_tinysongurl[0]['ArtistName']),
+	print str(parsed_tinysongurl[randomIndexForSong]['ArtistName']),
 	print " Song: ",
-	print str(parsed_tinysongurl[0]['SongName'])
+	print str(parsed_tinysongurl[randomIndexForSong]['SongName'])
 	print "This is the song ID:",
 	print pickedSong_id
-	print pickedSong_id
-	pickedSong_id
 	return pickedSong_id
 
 
