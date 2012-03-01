@@ -45,6 +45,8 @@ def IdForRandomSongByArtist(artist):
 	print "TinySong Opened"
 	parsed_tinysongurl = json.loads(tinysongurl) 
 	numberOfSongs = jsonObjectCount(parsed_tinysongurl)
+	if (numberOfSongs == 0):
+		return '0'
 	randomIndexForSong = random.randint(0,numberOfSongs-1)
 	print "Number of Songs:",
 	print numberOfSongs
