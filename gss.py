@@ -52,9 +52,9 @@ def IdForRandomSongByArtist(artist):
 	print numberOfSongs
 	pickedSong_id = parsed_tinysongurl[randomIndexForSong]['SongID']
 	print str(pickedSong_id) + " Artist: ",
-	print str(parsed_tinysongurl[randomIndexForSong]['ArtistName']),
+	print str(parsed_tinysongurl[randomIndexForSong]['ArtistName']).encode('utf-8'),
 	print " Song: ",
-	print str(parsed_tinysongurl[randomIndexForSong]['SongName'])
+	print str(parsed_tinysongurl[randomIndexForSong]['SongName']).encode('utf-8')
 	print "This is the song ID:",
 	print pickedSong_id
 	return pickedSong_id
