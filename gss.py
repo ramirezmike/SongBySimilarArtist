@@ -5,6 +5,7 @@ import random
 import json
 import pexpect
 import time
+import re
 
 argParser = argparse.ArgumentParser(description='Add Key.')
 argParser.add_argument('key',type=str)
@@ -31,6 +32,12 @@ def createArtistList(artist,key):
 			alist.append(tag.text.replace('&amp;','&'))
 	alist.append(artist)
 	print "Number of Artists added to List: %s"% len(alist)
+	regex = '[Nn][Ii][Cc][Kk][Ee][Ll][Bb][Aa][Cc][Kk]'
+	for name in alist:
+		match = re.findall(regex,name)
+		if (match):
+			alist.remove('Nickelback')
+			print "Nickelback removed"
 	return alist
 
 def randomArtistFromList(alist):
