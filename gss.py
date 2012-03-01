@@ -41,7 +41,11 @@ def randomArtistFromList(alist):
 
 def IdForRandomSongByArtist(artist):
 	print "TinySong Opening"
-	tinysongurl = urllib.urlopen("http://tinysong.com/s/" + artist + "?format=json&limit=32&key=59f18b16a371c3d6090205c642fdf0f5").read()
+	try:
+	    tinysongurl = urllib.urlopen("http://tinysong.com/s/" + str(artist).encode('utf-8') + "?format=json&limit=32&key=59f18b16a371c3d6090205c642fdf0f5").read()
+	except:
+	    print "[Incompatible Encoding in URL]"
+	    return '0'
 	print "TinySong Opened"
 	parsed_tinysongurl = json.loads(tinysongurl) 
 	numberOfSongs = jsonObjectCount(parsed_tinysongurl)
@@ -52,9 +56,15 @@ def IdForRandomSongByArtist(artist):
 	print numberOfSongs
 	pickedSong_id = parsed_tinysongurl[randomIndexForSong]['SongID']
 	print str(pickedSong_id) + " Artist: ",
-	print str(parsed_tinysongurl[randomIndexForSong]['ArtistName']).encode('utf-8'),
+	try:
+	    print str(parsed_tinysongurl[randomIndexForSong]['ArtistName']).encode('utf-8'),
+	except:
+	    print "[Incompatible Encoding]",
 	print " Song: ",
-	print str(parsed_tinysongurl[randomIndexForSong]['SongName']).encode('utf-8')
+	try:
+	    print str(parsed_tinysongurl[randomIndexForSong]['SongName']).encode('utf-8')
+	except:
+	    print "[Incompatible Encoding]"
 	print "This is the song ID:",
 	print pickedSong_id
 	return pickedSong_id
