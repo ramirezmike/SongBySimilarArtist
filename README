@@ -6,7 +6,7 @@ Bugs to fix:
 * sometimes an artist name will crash the script because of encoding
 * timing of adding songs needs to be balanced
 * time from script launch to music playing should be shortened
-* crashes if an artist in list has no song results from Tinysong
+* (FIXED)crashes if an artist in list has no song results from Tinysong
 
 How to run:
 
