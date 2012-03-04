@@ -3,16 +3,17 @@ Script launches from terminal with an artist's name as the argument which is use
 Once launched, both the terminal window and the firefox window can be minimized and the script continues to run and control the minimized firefox window.
 
 Bugs to fix: 
-* sometimes an artist name will crash the script because of encoding
+* (FIXED)sometimes an artist name will crash the script because of encoding
 * timing of adding songs needs to be balanced
 * time from script launch to music playing should be shortened
 * urls sometimes crash the script because of encoding
 * Nickleback songs sometimes get added to playlist
 * (FIXED)crashes if an artist in list has no song results from Tinysong
+* (FIXED)Nickelback songs sometimes play
 
 How to run:
 
 You'll need Firefox with the "noscripts" addon installed.
 Python with BeautifulSoup and pexpect libraries installed
-watir installed on your system (this is probably the hardest step)
+watir installed on your system
 API keys from last.fm and tinysong

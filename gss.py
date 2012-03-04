@@ -11,7 +11,8 @@ argParser = argparse.ArgumentParser(description='Add Key.')
 argParser.add_argument('key',type=str)
 arguments = argParser.parse_args()
 passedArtist = arguments.key.replace(' ','+')
-lastfm_key = "f30074d1365071a86b89594c8d583658" 
+lastfm_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" 
+tinysong_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
 def jsonObjectCount(obj):
 	count = 0
@@ -49,7 +50,7 @@ def randomArtistFromList(alist):
 def IdForRandomSongByArtist(artist):
 	print "TinySong Opening"
 	try:
-	    tinysongurl = urllib.urlopen("http://tinysong.com/s/" + str(artist).encode('utf-8') + "?format=json&limit=32&key=59f18b16a371c3d6090205c642fdf0f5").read()
+	    tinysongurl = urllib.urlopen("http://tinysong.com/s/" + str(artist).encode('utf-8') + "?format=json&limit=32&key=" + tinysong_key).read()
 	except:
 	    print "[Incompatible Encoding in URL]"
 	    return '0'
