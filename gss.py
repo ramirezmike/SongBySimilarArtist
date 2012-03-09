@@ -11,8 +11,8 @@ argParser = argparse.ArgumentParser(description='Add Key.')
 argParser.add_argument('key',type=str)
 arguments = argParser.parse_args()
 passedArtist = arguments.key.replace(' ','+')
-lastfm_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" 
-tinysong_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+lastfm_key = "f30074d1365071a86b89594c8d583658" 
+tinysong_key = "59f18b16a371c3d6090205c642fdf0f5"
 
 def jsonObjectCount(obj):
 	count = 0
