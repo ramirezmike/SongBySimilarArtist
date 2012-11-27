@@ -11,8 +11,8 @@ argParser = argparse.ArgumentParser(description='Add Key.')
 argParser.add_argument('key',type=str)
 arguments = argParser.parse_args()
 passedArtist = arguments.key.replace(' ','+')
-lastfm_key = "&api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" 
-tinysong_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+lastfm_key = "&api_key=f30074d1365071a86b89594c8d583658" 
+tinysong_key = "59f18b16a371c3d6090205c642fdf0f5"
 lastFMUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getSimilar&artist='
 regex = '[Nn][Ii][Cc][Kk][Ee][Ll][Bb][Aa][Cc][Kk]'
 ADD_SONG_TIMER = 5
@@ -86,7 +86,7 @@ def setupBrowserController():
 	print 'Browser Controller Initiated'
 	controller.sendline('require "watir-webdriver"')  
 	controller.expect('>>')
-	controller.sendline('browser = Watir::Browser.new :ff')  
+	controller.sendline('browser = Watir::Browser.new :chrome')  
 	controller.expect('>>')
 	return controller
 
@@ -100,13 +100,13 @@ def javaCallAddNewRandomSong(controller,idNumber,songNumber):
 #	controller.sendline('browser.execute_script("javascript:window.Grooveshark.addSongsByID(%s,false);")'% idNumber)
 #	controller.expect('>>')
 #	time.sleep(5)
-	controller.sendline('browser.execute_script("javascript:window.Grooveshark.addSongsByID(%s,false);")'% idNumber)
+	controller.sendline('browser.execute_script("javascript:window.Grooveshark.addSongsByID([%s],false);")'% idNumber)
 	controller.expect('>>')
 	print controller.before
 	return
 
 def scriptSetup(controller,idNumber):
-	setupPlaylistCall = 'browser.execute_script("javascript:window.Grooveshark.addSongsByID(' + str(idNumber) + ',true);")'
+	setupPlaylistCall = 'browser.execute_script("javascript:window.Grooveshark.addSongsByID([' + str(idNumber) + '],true);")'
 	print "Setting up script.." 
 	time.sleep(ADD_SONG_TIMER)
 	controller.sendline(setupPlaylistCall)

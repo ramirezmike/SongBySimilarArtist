@@ -1,23 +1,23 @@
-Script launches from terminal with an artist's name as the argument which is used to generate a list of similar artists. The script launches Firefox and automatically adds and plays random songs through Grooveshark. 
+Script launches from terminal with an artist's name as the argument which is used to generate a list of similar artists. The script previously launched Firefox, but a recent update to Firefox broke the script's compatability with Watir, the Ruby framework I use to control the browser. I switched to Chrome and it works with the latest version. The script automatically adds and plays random songs through Grooveshark. 
 
-Once launched, both the terminal window and the firefox window can be minimized and the script continues to run and control the minimized firefox window.
+Once launched, both the terminal window and the chrome window can be minimized and the script continues to run and control the minimized chrome window.
+
 
 Bugs to fix: 
+* (FIXED)Changed the function call to fit Grooveshark's new javascript API changes
 * (FIXED)sometimes an artist name will crash the script because of encoding
 * (FIXED)timing of adding songs needs to be balanced
 * (FIXED)time from script launch to music playing should be shortened
 * (FIXED)urls sometimes crash the script because of encoding
 * (FIXED)crashes if an artist in list has no song results from Tinysong
 * (FIXED)Nickelback songs sometimes play
-* Won't play on launch if the first song has incompatible encoding in the URL
-	- just need to implement some recursion to fix this
 
 Features to add:
 * Some way to control the music; i.e., pause, skip
 
 How to run:
 
-You'll need Firefox with the "noscripts" addon installed.
+You'll need the latest version of Chrome
 Python with BeautifulSoup and pexpect libraries installed
 watir installed on your system
 API keys from last.fm and tinysong *please don't take mine if I've forgotten to remove them :(*
